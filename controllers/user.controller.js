@@ -22,7 +22,7 @@ export const signup = async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    re.json({ user, token });
+    res.json({ user, token });
   } catch (error) {
     res.status(500).json({ error: "Signup Failed", details: error.message });
   }
@@ -48,7 +48,7 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    re.json({ user, token });
+    res.json({ user, token });
   } catch (error) {
     res.status(500).json({ error: "login Failed", details: error.message });
   }

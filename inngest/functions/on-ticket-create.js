@@ -48,7 +48,7 @@ export const onTicketCreated = inngest.createFunction(
           role: "moderator",
           skills: {
             $elemMatch: {
-              $regex: relatedSkills.join("|"),
+              $regex: relatedSkills.join("|"), // if relatedSkills = ['React', 'MongoDB'], the regex becomes: /React|MongoDB/i
               $options: "i",
             },
           },
