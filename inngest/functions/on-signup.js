@@ -1,5 +1,5 @@
 import { inngest } from "../client";
-import User from "../../models/user.models";
+import User from "../../models/user.models.js";
 import { NonRetriableError } from "inngest";
 import { sendMail } from "./../../utils/mailer";
 
