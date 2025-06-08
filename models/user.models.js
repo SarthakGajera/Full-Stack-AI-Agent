@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     default: "user",
     enum: ["user", "moderator", "admin"],
   },
-  skills: [string],
+  skills: [String],
   createdAt: { type: Date, default: Date.now },
 });
 
