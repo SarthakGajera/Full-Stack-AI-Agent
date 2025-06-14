@@ -2,38 +2,38 @@
 A smart ticket management system that uses AI to automatically categorize, prioritize, and assign support tickets to the most appropriate moderators.
 
 🚀 Features
-AI-Powered Ticket Processing
+AI-Powered Ticket Processing <br>
+Automatic ticket categorization <br>
+Smart priority assignment <br>
+Skill-based moderator matching <br>
+AI-generated helpful notes for moderators <br>
+Smart Moderator Assignment <br>
+<br>
+Automatic matching of tickets to moderators based on skills <br>
+Fallback to admin assignment if no matching moderator found <br>
+Skill-based routing system <br>
+User Management :
+<br>
 
-Automatic ticket categorization
-Smart priority assignment
-Skill-based moderator matching
-AI-generated helpful notes for moderators
-Smart Moderator Assignment
+Role-based access control (User, Moderator, Admin)<br>
+Skill management for moderators<br>
+User authentication with JWT<br>
+Background Processing<br>
 
-Automatic matching of tickets to moderators based on skills
-Fallback to admin assignment if no matching moderator found
-Skill-based routing system
-User Management
+Event-driven architecture using Inngest<br>
+Automated email notifications<br>
+Asynchronous ticket processing<br>
+🛠️ Tech Stack<br>
+Backend: Node.js with Express<br>
+Database: MongoDB<br>
+Authentication: JWT<br>
+Background Jobs: Inngest<br>
+AI Integration: Google Gemini API<br>
+Email: Nodemailer with Mailtrap<br>
+Development: Nodemon for hot reloading<br>
 
-Role-based access control (User, Moderator, Admin)
-Skill management for moderators
-User authentication with JWT
-Background Processing
-
-Event-driven architecture using Inngest
-Automated email notifications
-Asynchronous ticket processing
-🛠️ Tech Stack
-Backend: Node.js with Express
-Database: MongoDB
-Authentication: JWT
-Background Jobs: Inngest
-AI Integration: Google Gemini API
-Email: Nodemailer with Mailtrap
-Development: Nodemon for hot reloading
-
-🔄 Ticket Processing Flow
-Ticket Creation
+🔄 Ticket Processing Flow<br>
+Ticket Creation<br>
 
 User submits a ticket with title and description
 System creates initial ticket record
