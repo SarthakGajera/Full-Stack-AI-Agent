@@ -59,12 +59,12 @@ export const getTicket = async (req, res) => {
     const user = req.user;
     let ticket;
     if (user.role !== "user") {
-      const ticket = Ticket.findById(req.params._id).populate("assignedTo", [
+      ticket = await Ticket.findById(req.params._id).populate("assignedTo", [
         "email",
         "_id",
       ]);
     } else {
-      ticket = Ticket.findOne({
+      ticket = await Ticket.findOne({
         createdBy: user._id,
         _id: req.params.id,
       }).select("title description status createdAt");
