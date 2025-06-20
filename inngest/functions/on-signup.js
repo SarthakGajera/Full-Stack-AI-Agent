@@ -25,6 +25,7 @@ export const onUserSignup = inngest.createFunction(
 
         await sendMail(user.email, subject, message);
       }); // pipeline 2
+      console.log("Sending welcome email to:", user.email);
 
       return { success: true };
     } catch (error) {
