@@ -2,8 +2,8 @@ import { inngest } from "../client.js";
 import Ticket from "../../models/ticket.models.js";
 import User from "../../models/user.models.js";
 import { NonRetriableError } from "inngest";
-import { sendMail } from "./../../utils/mailer.js";
-import analyzeTicket from "./../../utils/ai.agent.js";
+import { sendMail } from "../../utils/mailer.js";
+import analyzeTicket from "../../utils/ai.agent.js";
 
 export const onTicketCreated = inngest.createFunction(
   { id: "on-ticket-created", retries: 2 },
@@ -13,6 +13,7 @@ export const onTicketCreated = inngest.createFunction(
       const { ticketId } = event.data;
 
       //fetch ticket from DB
+
       const ticket = await step.run("fetch-ticket", async () => {
         const ticketObject = await Ticket.findById(ticketId);
         if (!ticketObject) {
@@ -24,6 +25,7 @@ export const onTicketCreated = inngest.createFunction(
       await step.run("update-ticket-status", async () => {
         await Ticket.findByIdAndUpdate(ticket._id, { status: "TODO" });
       });
+      // until this part code is executing
 
       const aiResponse = await analyzeTicket(ticket);
 
@@ -48,20 +50,20 @@ export const onTicketCreated = inngest.createFunction(
           role: "moderator",
           skills: {
             $elemMatch: {
-              $regex: relatedSkills.join("|"), // if relatedSkills = ['React', 'MongoDB'], the regex becomes: /React|MongoDB/i
+              $regex: relatedSkills.join("|"),
               $options: "i",
             },
           },
         });
 
         if (!user) {
-          user = await User.findOne({
-            role: "admin",
-          });
+          user = await User.findOne({ role: "admin" });
         }
+
         await Ticket.findByIdAndUpdate(ticket._id, {
           assignedTo: user?._id || null,
         });
+
         return user;
       });
 
@@ -71,14 +73,14 @@ export const onTicketCreated = inngest.createFunction(
           await sendMail(
             moderator.email,
             "Ticket Assigned",
-            `A new Ticket is assigned to you ${finalTicket.title}`
+            `A new Ticket is assigned to you: ${finalTicket.title}`
           );
         }
       });
 
       return { success: true };
     } catch (err) {
-      console.error("Error running the step", err.message);
+      console.error("❌ Error running the step:", err.message);
       return { success: false };
     }
   }

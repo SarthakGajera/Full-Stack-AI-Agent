@@ -22,12 +22,9 @@ IMPORTANT:
 
 Repeat: Do not wrap your output in markdown or code fences.`,
   });
-  //This sets the general behavior and rules for the assistant.
-  //It instructs the AI how to think, what role to take,
 
   const response =
-    await supportAgent.run(`You are a ticket triage agent. Only return a strict JSON object with no extra text, headers, or markdown
-      
+    await supportAgent.run(`You are a ticket triage agent. Only return a strict JSON object with no extra text, headers, or markdown.
         
 Analyze the following support ticket and provide a JSON object with:
 
@@ -35,8 +32,6 @@ Analyze the following support ticket and provide a JSON object with:
 - priority: One of "low", "medium", or "high".
 - helpfulNotes: A detailed technical explanation that a moderator can use to solve this issue. Include useful external links or resources if possible.
 - relatedSkills: An array of relevant skills required to solve the issue (e.g., ["React", "MongoDB"]).
-
-
 
 Respond ONLY in this JSON format and do not include any other text or markdown in the answer:
 
@@ -49,17 +44,12 @@ Respond ONLY in this JSON format and do not include any other text or markdown i
 
 ---
 
-
-
 Ticket information:
 
 - Title: ${ticket.title}
 - Description: ${ticket.description}`);
-  //This is the main prompt that actually triggers the response.
 
-  //The above part was talking with the AI
-
-  const raw = response.output[0].context;
+  const raw = response.output[0].content;
 
   try {
     const match = raw.match(/```json\s*([\s\S]*?)\s*```/i);
@@ -67,10 +57,8 @@ Ticket information:
     return JSON.parse(jsonString);
   } catch (e) {
     console.log("Failed to parse JSON from AI response" + e.message);
-    return null;
+    return null; // watch out for this
   }
-
-  //The above part was just handling the response given by the AI
 };
 
 export default analyzeTicket;

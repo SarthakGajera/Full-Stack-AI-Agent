@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
 import userRoutes from "./routes/user.routes.js";
 import ticketRoutes from "./routes/ticket.routes.js";
 import { serve } from "inngest/express";
@@ -9,9 +8,10 @@ import { inngest } from "./inngest/client.js";
 import { onUserSignup } from "./inngest/functions/on-signup.js";
 import { onTicketCreated } from "./inngest/functions/on-ticket-create.js";
 
-dotenv.config({
-  path: "./.env",
-});
+import dotenv from "dotenv";
+dotenv.config();
+
+//console.log("GEMINI_API_KEY", process.env.GEMINI_API_KEY);
 
 const PORT = process.env.PORT || 3000;
 const app = express();

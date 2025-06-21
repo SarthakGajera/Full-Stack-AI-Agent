@@ -39,15 +39,15 @@ export const getTickets = async (req, res) => {
     const user = req.user;
     let tickets = [];
     if (user.role !== "user") {
-      tickets = Ticket.find({})
+      tickets = await Ticket.find({})
         .populate("assignedTo", ["email", "_id"]) //populate is a mongodb method , it looks for assignedTO and set the data of email and id of user in the field assignedTO
         .sort({ createdAt: -1 });
     } else {
       tickets = await Ticket.find({ createdBy: user._id })
-        .select("Title description status createdAt")
+        .select("title description status createdAt")
         .sort({ createdAt: -1 });
     }
-    return res.status(200).json(tickets);
+    return res.status(200).json({ tickets });
   } catch (error) {
     console.log("Error fetching tickets", error.message);
     return res.status(500).json({ message: "Internal Server error" });
@@ -59,7 +59,7 @@ export const getTicket = async (req, res) => {
     const user = req.user;
     let ticket;
     if (user.role !== "user") {
-      ticket = await Ticket.findById(req.params._id).populate("assignedTo", [
+      ticket = await Ticket.findById(req.params.id).populate("assignedTo", [
         "email",
         "_id",
       ]);
@@ -67,7 +67,11 @@ export const getTicket = async (req, res) => {
       ticket = await Ticket.findOne({
         createdBy: user._id,
         _id: req.params.id,
-      }).select("title description status createdAt");
+      })
+        .select(
+          "title description status createdAt priority helpfulNotes relatedSkills assignedTo"
+        )
+        .populate("assignedTo", ["email", "_id"]);
     }
 
     if (!ticket) {
